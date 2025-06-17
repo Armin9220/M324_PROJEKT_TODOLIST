@@ -1,0 +1,19 @@
+name: GitHub Actions Demo
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Zeig mir was läuft
+        run: echo "✅ Salam Bruder, GitHub Action funktioniert!"
