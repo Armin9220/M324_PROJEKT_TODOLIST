@@ -1,0 +1,36 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://backend:8081
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      MYSQL_HOST: db
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: demo
+      MYSQL_DATABASE: wiss_todos
+      MYSQL_USER: wiss_todo
+      MYSQL_PASSWORD: wiss_todo123
+
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql  # <<< WICHTIG
+
+volumes:
+  db_data:

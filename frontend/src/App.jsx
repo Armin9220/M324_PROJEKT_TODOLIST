@@ -3,6 +3,9 @@ import logo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8081";
+const URL = API_URL+"/task";
+
 function App() {
   const [count, setCount] = useState(0)
   const [todos, setTodos] = useState([]);
@@ -14,7 +17,7 @@ function App() {
   const handleSubmit = event => {
     event.preventDefault();
     console.log("Sending task description to Spring-Server: "+taskdescription);
-    fetch("http://localhost:8081/task", {  // API endpoint (the complete URL!) to save a taskdescription
+    fetch(URL, {  // API endpoint (the complete URL!) to save a taskdescription
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -46,7 +49,7 @@ function App() {
   ** It updates the component's state with the fetched todos from the API Endpoint '/'.
   */
   useEffect(() => {
-    fetch("http://localhost:8081/task").then(response => response.json()).then(data => {
+    fetch(URL).then(response => response.json()).then(data => {
       setTodos(data);
     });
   }, []);
@@ -57,7 +60,7 @@ function App() {
   */
   const handleDelete = (event, taskdescription) => {
     console.log("Sending task description to delete on Spring-Server: "+taskdescription);
-    fetch(`http://localhost:8081/delete`, { // API endpoint (the complete URL!) to delete an existing taskdescription in the list
+    fetch(`${URL}/${id}`, { // API endpoint (the complete URL!) to delete an existing taskdescription in the list
       method: "POST",
       body: JSON.stringify({ taskdescription: taskdescription }),
       headers: {

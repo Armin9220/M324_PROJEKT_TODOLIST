@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS wiss_todos;
+USE wiss_todos;
+
+CREATE USER IF NOT EXISTS 'wiss_todo'@'%' IDENTIFIED BY 'wiss_todo123';
+GRANT ALL PRIVILEGES ON wiss_todos.* TO 'wiss_todo'@'%';
+FLUSH PRIVILEGES;
+
+CREATE TABLE IF NOT EXISTS task (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    taskdescription VARCHAR(255) NOT NULL
+);
